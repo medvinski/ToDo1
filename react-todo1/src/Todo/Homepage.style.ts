@@ -1,17 +1,20 @@
-import {  mergeStyleSets } from "@fluentui/react";
+import { mergeStyleSets } from "@fluentui/react";
 import { IProcessedStyleSet, IStyle } from "@fluentui/react/lib/Styling";
 import notebookPaperImage from './notebook-paper.jpg';
 import headerImage from './stars.jpg';
 
-interface IHomepageStyle{
-  todoContainer : IStyle;
-  headerStyle : IStyle
+interface IHomepageStyle {
+  todoContainer: IStyle;
+  headerStyle: IStyle;
+  tabContainer: IStyle;
+  tab: IStyle;
+  activeTab: IStyle;
 }
+
 export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets({
-  todoContainer : {
-    
-    backgroundImage: `url(${notebookPaperImage})`,
-    backgroundRepeat: 'repeat',
+  todoContainer: {
+    // Background styles for the container
+    backgroundColor: "white",
     border: '2px solid blue',
     boxShadow: `
       rgb(255, 255, 255) 10px -10px 0px -3px,
@@ -30,21 +33,42 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
     left: '50%',
     transform: 'translate(-50%, -50%)',
   },
-    headerStyle: {
-      height: 50,
-      backgroundImage: `url(${headerImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      WebkitTextStroke: '2px black',
-      WebkitTextFillColor: 'white', 
-      fontSize: '24px',
-      
-    }
-
-  
-})
+  headerStyle: {
+    // Styles for the header
+    height: 50,
+    backgroundColor: "grey",
+    backgroundPosition: 'center',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    WebkitTextStroke: '2px black',
+    WebkitTextFillColor: 'white',
+    fontSize: '24px',
+  },
+  tabContainer: {
+    // Styles for the tab container
+    listStyleType: 'none',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: 0,
+    padding: 0,
+  },
+  tab: {
+    // Styles for each tab
+    padding: '10px 20px',
+    cursor: 'pointer',
+    backgroundColor: 'cream',
+    margin: '0 5px',
+    borderRadius: '5px',
+    userSelect: 'none',
+ 
+    
+  },
+  activeTab: {
+    // Styles for the active tab
+    backgroundColor: 'yellow',
+    color: '',
+  },
+});
 
 export default HomepageStyle;
