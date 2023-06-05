@@ -1,35 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TaskListStyle } from "./TaskList.style";
+import { FontIcon } from '@fluentui/react';
+import { ToDoContext } from '../Homepage';
+import {ITask} from "../Homepage"
 
-interface ITask {
-  id: string;
-  title: string;
-}
+
+
 
 const TaskList = () => {
-  const tasks: ITask[] = [
-    {
-      id: "1",
-      title: "Lorem ipsums jsjsjshjdadadad"
-    },
-    {
-      id: "2",
-      title: "Lorem ipsumadjhadkhadvjga"
-    },
-  ];
+  
+
+  const { activeTasks } = useContext(ToDoContext)
 
   const onRenderCell = (task: ITask) => {
     return (
       <div key={task.id} className={TaskListStyle.task}>
         <input type="checkbox" style={{ width: '20px', height: '20px' }} />
         {task.title}
+        <FontIcon  iconName="Info" className={TaskListStyle.icon} />
+        <FontIcon  iconName={task.isFav ? "FavoriteStarFill" : "FavoriteStar"} className={TaskListStyle.icon} />
+        <FontIcon  iconName="EditNote" className={TaskListStyle.icon} />
+        <FontIcon  iconName="Delete" className={TaskListStyle.icon} />
       </div>
     );
   };
 
   return (
     <div>
-      {tasks.map(onRenderCell)}
+      {activeTasks.map(onRenderCell)}
     </div>
   );
 };

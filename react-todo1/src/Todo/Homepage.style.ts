@@ -59,12 +59,16 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
   },
   tab: {
     // Styles for each tab
-    padding: '10px 20px',
+    padding: '5px 20px',
     cursor: 'pointer',
     backgroundColor: 'cream',
     margin: '0 5px',
     borderRadius: '5px',
-    userSelect: 'none',   
+    userSelect: 'none', 
+    fontWeight: "bold",
+    fontSize: '20px',
+    
+      
   },
   activeTab: {
     // Styles for the active tab
@@ -84,13 +88,14 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
     fontSize: '24px',
   },
   adviceStyle: {
-    fontSize: '22px',
+    fontSize: '26px',
     textAlign: 'center',
     textShadow: '1px 1px 4px rgba(0, 0, 0, 0.5)',
     color: 'transparent',
     WebkitTextStroke: '1px navy',
-    WebkitTextFillColor: 'transparent',
+    WebkitTextFillColor: 'pink',
     WebkitTextStrokeWidth: '1px',
+    fontWeight: "cursive",
     
   }, 
 });
