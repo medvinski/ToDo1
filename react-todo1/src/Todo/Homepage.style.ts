@@ -1,7 +1,7 @@
 import { mergeStyleSets } from "@fluentui/react";
 import { IProcessedStyleSet, IStyle } from "@fluentui/react/lib/Styling";
 import notebookPaperImage from './notebook-paper.jpg';
-import headerImage from './stars.jpg';
+import headerImage from './lavender.jpg';
 
 interface IHomepageStyle {
   todoContainer: IStyle;
@@ -9,12 +9,15 @@ interface IHomepageStyle {
   tabContainer: IStyle;
   tab: IStyle;
   activeTab: IStyle;
+  clockStyle: IStyle;
+  adviceContainer: IStyle; // New style for the advice container
+  adviceStyle: IStyle
 }
 
 export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets({
   todoContainer: {
-    // Background styles for the container
-    backgroundColor: "white",
+    backgroundImage: `url(${notebookPaperImage})`,
+    backgroundRepeat: 'repeat',
     border: '2px solid blue',
     boxShadow: `
       rgb(255, 255, 255) 10px -10px 0px -3px,
@@ -26,8 +29,8 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
       rgb(255, 255, 255) 40px -40px 0px -3px,
       rgb(255, 85, 85) 40px -40px
     `,
-    width: '500px',
-    height: '600px',
+    width: '560px',
+    height: '700px',
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -36,7 +39,8 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
   headerStyle: {
     // Styles for the header
     height: 50,
-    backgroundColor: "grey",
+    backgroundImage: `url(${headerImage})`,
+    backgroundRepeat: 'repeat',
     backgroundPosition: 'center',
     display: "flex",
     justifyContent: "center",
@@ -60,15 +64,35 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
     backgroundColor: 'cream',
     margin: '0 5px',
     borderRadius: '5px',
-    userSelect: 'none',
- 
-    
+    userSelect: 'none',   
   },
   activeTab: {
     // Styles for the active tab
     backgroundColor: 'yellow',
     color: '',
   },
+  clockStyle: {
+    fontSize: "15px",
+    fontWeight: "bold",
+    marginTop: "10px",
+    verticalAlign: "bottom",
+    textAlign: "center",
+  },
+  adviceContainer: {
+    
+    textAlign: 'center', // Center the text
+    fontSize: '24px',
+  },
+  adviceStyle: {
+    fontSize: '22px',
+    textAlign: 'center',
+    textShadow: '1px 1px 4px rgba(0, 0, 0, 0.5)',
+    color: 'transparent',
+    WebkitTextStroke: '1px navy',
+    WebkitTextFillColor: 'transparent',
+    WebkitTextStrokeWidth: '1px',
+    
+  }, 
 });
 
 export default HomepageStyle;
