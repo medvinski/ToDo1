@@ -36,7 +36,7 @@ const Clock = () => {
 
   return (
     <div className={HomepageStyle.clockStyle}>
-      Current time in Poland: {currentTime.toLocaleTimeString('pl-PL')}
+      Current time : {currentTime.toLocaleTimeString('pl-PL')}
     </div>
   );
 };
@@ -60,7 +60,7 @@ const Homepage = () => {
     },
   ];
 
-  const [selectedKey, setSelectedKey] = useState('1');
+  const [selectedKey, setSelectedKey] = useState('0');
   const [advice, setAdvice] = useState<string | null>(null);
   const [joke, setJoke] = useState<string | null>(null);
 

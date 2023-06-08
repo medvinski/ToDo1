@@ -7,11 +7,7 @@ import Homepage from './Todo/Homepage';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <React.StrictMode>
-    <Homepage />
-  </React.StrictMode>
-);
+root.render(<Homepage />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

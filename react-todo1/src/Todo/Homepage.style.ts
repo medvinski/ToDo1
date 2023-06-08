@@ -1,7 +1,7 @@
 import { mergeStyleSets } from "@fluentui/react";
 import { IProcessedStyleSet, IStyle } from "@fluentui/react/lib/Styling";
 import notebookPaperImage from './notebook-paper.jpg';
-import headerImage from './lavender.jpg';
+import headerImage from './smiley.jpg';
 
 interface IHomepageStyle {
   todoContainer: IStyle;
@@ -91,7 +91,7 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
     fontSize: '24px',
   },
   adviceStyle: {
-    fontSize: '26px',
+    fontSize: '22px',
     textAlign: 'center',
     textShadow: '1px 1px 4px rgba(0, 0, 0, 0.5)',
     color: 'transparent',
@@ -107,7 +107,7 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
     fontSize: '24px',
   },
   jokeStyle: {
-    fontSize: '26px',
+    fontSize: '22px',
     textAlign: 'center',
     textShadow: '1px 1px 4px rgba(0, 0, 0, 0.5)',
     color: 'transparent',
