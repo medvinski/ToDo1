@@ -1,35 +1,56 @@
 import React, { useState, useEffect, useContext } from 'react';
 import useInput from './useInput';
-import { ToDoContext } from '../TodoProvider';
+import { ActionTypeEnum, ToDoContext } from '../TodoProvider';
+import { ITask } from '../Homepage';
 
 const TaskForm = () => {
-  const { dispatch } = useContext(ToDoContext);
+  const { dispatch, activeTasks } = useContext(ToDoContext);
   const title = useInput('');
   const description = useInput('');
   const [isTaskAdded, setIsTaskAdded] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const data = { title: title.value, description: description.value };
-    dispatch({ type: 'add', data });
+
+    if (activeTasks.length >= 5) {
+      setErrorMessage('You have already added 5 tasks.');
+      return;
+    }
+
+    const data: ITask = {
+      id: '',
+      title: title.value,
+      description: description.value,
+      isFav: false,
+    };
+    dispatch({ type: ActionTypeEnum.Add, data });
     setIsTaskAdded(true);
   };
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    if (isTaskAdded) {
+    if (isTaskAdded || errorMessage) {
       timer = setTimeout(() => {
         setIsTaskAdded(false);
+        setErrorMessage('');
       }, 1500);
     }
     return () => {
       clearTimeout(timer);
     };
-  }, [isTaskAdded]);
+  }, [isTaskAdded, errorMessage]);
 
   const successMessageStyle = {
     fontSize: '18px',
     color: 'green',
+    margin: '10px 0',
+    fontWeight: 'bold',
+  };
+
+  const errorMessageStyle = {
+    fontSize: '18px',
+    color: 'red',
     margin: '10px 0',
     fontWeight: 'bold',
   };
@@ -115,8 +136,9 @@ const TaskForm = () => {
             </button>
           </div>
           {isTaskAdded && (
-            <div style={successMessageStyle}>Success : Task added!</div>
+            <div style={successMessageStyle}>Success: Task added!</div>
           )}
+          {errorMessage && <div style={errorMessageStyle}>{errorMessage}</div>}
         </form>
       </div>
     </div>

@@ -16,6 +16,7 @@ interface PivotItem {
 export interface ITask {
   id: string;
   title: string;
+  description?: string;
   isFav: boolean;
 }
 interface Joke {

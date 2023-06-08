@@ -11,14 +11,44 @@ export const ToDoContext = createContext<ITodoContext>({
   activeTasks: [],
   dispatch: () => {},
 });
+export enum ActionTypeEnum {
+  Add,
+  Delete,
+}
+
+type IReducerAction = IAddAction | IDeleteAction;
+
+interface IAddAction {
+  type: ActionTypeEnum.Add;
+  data: ITask;
+}
+
+interface IDeleteAction {
+  type: ActionTypeEnum.Delete;
+  data: { id: string };
+}
 
 type Props = {
   children: React.ReactNode;
 };
 
-const reducer = (state: ITodoState, action: any) => {
-  console.log(state);
-  console.log(action);
+const reducer = (state: ITodoState, action: IReducerAction) => {
+  switch (action.type) {
+    case ActionTypeEnum.Add:
+      const { data } = action;
+      data.id = new Date().toJSON();
+      return { ...state, activeTasks: [action.data, ...state.activeTasks] };
+
+    case ActionTypeEnum.Delete:
+      const activeTasks: ITask[] = JSON.parse(
+        JSON.stringify(state.activeTasks)
+      );
+      const filteredData = activeTasks.filter(
+        (task) => task.id !== action.data.id
+      );
+      return { ...state, activeTasks: filteredData };
+  }
+
   return { ...state };
 };
 
