@@ -9,6 +9,9 @@ const TaskList = () => {
   const onTaskDelete = (id: string) => {
     dispatch({ type: ActionTypeEnum.Delete, data: { id } });
   };
+  const onFavClick = (id: string) => {
+    dispatch({ type: ActionTypeEnum.ToggleFav, data: { id } });
+  };
   const onRenderCell = (task: ITask) => {
     return (
       <div key={task.id} className={TaskListStyle.task}>
@@ -18,7 +21,10 @@ const TaskList = () => {
           <FontIcon iconName="Info" className={TaskListStyle.icon} />
           <FontIcon
             iconName={task.isFav ? 'FavoriteStarFill' : 'FavoriteStar'}
-            className={TaskListStyle.icon}
+            className={`${TaskListStyle.icon} ${
+              task.isFav ? TaskListStyle.favoriteIcon : ''
+            }`}
+            onClick={() => onFavClick(task.id)}
           />
           <FontIcon iconName="EditNote" className={TaskListStyle.icon} />
           <FontIcon

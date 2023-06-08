@@ -1,22 +1,28 @@
 import React, { Dispatch, createContext, useReducer } from 'react';
 import { ITask } from './Homepage';
+import { clone } from './utility';
+
 interface ITodoContext {
   activeTasks: ITask[];
   dispatch: Dispatch<any>;
 }
+
 interface ITodoState {
   activeTasks: ITask[];
 }
+
 export const ToDoContext = createContext<ITodoContext>({
   activeTasks: [],
   dispatch: () => {},
 });
+
 export enum ActionTypeEnum {
   Add,
   Delete,
+  ToggleFav,
 }
 
-type IReducerAction = IAddAction | IDeleteAction;
+type IReducerAction = IAddAction | IDeleteAction | IToggleFavAction;
 
 interface IAddAction {
   type: ActionTypeEnum.Add;
@@ -28,48 +34,53 @@ interface IDeleteAction {
   data: { id: string };
 }
 
+interface IToggleFavAction {
+  type: ActionTypeEnum.ToggleFav;
+  data: { id: string };
+}
+
 type Props = {
   children: React.ReactNode;
+};
+
+const addTaskAction = (state: ITodoState, action: IAddAction) => {
+  const { data } = action;
+  data.id = new Date().toJSON();
+  return [action.data, ...state.activeTasks];
+};
+
+const deleteTaskAction = (state: ITodoState, action: IDeleteAction) => {
+  const activeTasks: ITask[] = clone(state.activeTasks);
+  const filteredData = activeTasks.filter((task) => task.id !== action.data.id);
+  return filteredData;
+};
+
+const toggleFavAction = (state: ITodoState, action: IToggleFavAction) => {
+  const cloneActiveTasks: ITask[] = clone(state.activeTasks);
+  const index = cloneActiveTasks.findIndex((x) => x.id === action.data.id);
+  if (index >= 0) {
+    cloneActiveTasks[index].isFav = !cloneActiveTasks[index].isFav;
+  }
+  return cloneActiveTasks;
 };
 
 const reducer = (state: ITodoState, action: IReducerAction) => {
   switch (action.type) {
     case ActionTypeEnum.Add:
-      const { data } = action;
-      data.id = new Date().toJSON();
-      return { ...state, activeTasks: [action.data, ...state.activeTasks] };
+      return { ...state, activeTasks: addTaskAction(state, action) };
 
     case ActionTypeEnum.Delete:
-      const activeTasks: ITask[] = JSON.parse(
-        JSON.stringify(state.activeTasks)
-      );
-      const filteredData = activeTasks.filter(
-        (task) => task.id !== action.data.id
-      );
-      return { ...state, activeTasks: filteredData };
+      return { ...state, activeTasks: deleteTaskAction(state, action) };
+
+    case ActionTypeEnum.ToggleFav:
+      return { ...state, activeTasks: toggleFavAction(state, action) };
   }
 
   return { ...state };
 };
 
 const TodoProvider = (props: Props) => {
-  const tasks: ITask[] = [
-    {
-      id: '1',
-      title: 'Lorem ipsums jdad',
-      isFav: true,
-    },
-    {
-      id: '2',
-      title: 'Lorem ipsumadjhadkhadvjga',
-      isFav: false,
-    },
-    {
-      id: '3',
-      title: 'third',
-      isFav: false,
-    },
-  ];
+  const tasks: ITask[] = [];
 
   const data = { activeTasks: tasks };
   const [state, dispatch] = useReducer(reducer, data);

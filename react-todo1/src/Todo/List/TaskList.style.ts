@@ -1,9 +1,10 @@
-import { IProcessedStyleSet, IStyle, mergeStyleSets } from "@fluentui/react";
+import { IProcessedStyleSet, IStyle, mergeStyleSets } from '@fluentui/react';
 
 interface ITaskListStyle {
   task: IStyle;
   icon: IStyle;
   iconsContainer: IStyle;
+  favoriteIcon: IStyle; 
 }
 
 export const TaskListStyle: IProcessedStyleSet<ITaskListStyle> = mergeStyleSets({
@@ -22,7 +23,6 @@ export const TaskListStyle: IProcessedStyleSet<ITaskListStyle> = mergeStyleSets(
     border: '2px solid black',
     fontFamily: 'cursive',
     fontSize: '19px',
-    cursor: 'pointer', // Add cursor pointer to indicate interactivity
   },
   text: {
     flex: 1,
@@ -31,13 +31,15 @@ export const TaskListStyle: IProcessedStyleSet<ITaskListStyle> = mergeStyleSets(
   iconsContainer: {
     display: 'flex',
     marginLeft: '30px',
-    justifyContent: 'flex-end', // Align icons at the end
+    justifyContent: 'flex-end', 
   },
   icon: {
     fontSize: 30,
-    margin: '5px', // Adjust margin to set equal spacing between icons
-    width: '30px', // Set a fixed width for the icons
-    cursor: 'pointer', // Add cursor pointer to indicate interactivity
+    margin: '5px 5px 5px 5px', 
+    width: '30px', 
+  },
+  favoriteIcon: {
+    color: 'red', 
   },
 });
 
