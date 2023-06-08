@@ -2,14 +2,13 @@ import { IProcessedStyleSet, IStyle, mergeStyleSets } from "@fluentui/react";
 
 interface ITaskListStyle{
   task: IStyle;
-  icon: IStyle
+  icon: IStyle;
+  iconsContainer: IStyle
 }
-export const TaskListStyle : IProcessedStyleSet <ITaskListStyle> = mergeStyleSets({
-
+export const TaskListStyle: IProcessedStyleSet<ITaskListStyle> = mergeStyleSets({
   task: {
     display: 'flex',
-    alignItems: 'center', // Change alignment to center
-    justifyContent: 'space-between', // Add property to distribute space between elements
+    alignItems: 'center',
     padding: '5px',
     margin: '5px',
     background: 'transparent',
@@ -23,13 +22,24 @@ export const TaskListStyle : IProcessedStyleSet <ITaskListStyle> = mergeStyleSet
     fontFamily: 'cursive',
     fontSize: '19px',
   },
+  text: {
+    flex: 1,
+    textAlign: 'center',
+  },
+  iconsContainer: {
+    display: 'flex',
+    marginLeft: '30px',
+    justifyContent: 'flex-end', // Align icons at the end
+  },
   icon: {
-    fontSize: 30,  
-    margin: '2px 2px', // Adjust margin to set equal spacing between icons
+    fontSize: 30,
+    margin: '5px 5px 5px 5px', // Adjust margin to set equal spacing between icons
     width: '30px', // Set a fixed width for the icons
     
   },
 });
+
+
 
 
 export default TaskListStyle;

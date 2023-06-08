@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { TaskListStyle } from "./TaskList.style";
 import { FontIcon } from '@fluentui/react';
-import { ToDoContext } from '../Homepage';
 import {ITask} from "../Homepage"
+import { ToDoContext } from '../TodoProvider';
 
 
 
@@ -17,14 +17,15 @@ const TaskList = () => {
       <div key={task.id} className={TaskListStyle.task}>
         <input type="checkbox" style={{ width: '20px', height: '20px' }} />
         {task.title}
-        <FontIcon  iconName="Info" className={TaskListStyle.icon} />
-        <FontIcon  iconName={task.isFav ? "FavoriteStarFill" : "FavoriteStar"} className={TaskListStyle.icon} />
-        <FontIcon  iconName="EditNote" className={TaskListStyle.icon} />
-        <FontIcon  iconName="Delete" className={TaskListStyle.icon} />
+        <div className={TaskListStyle.iconsContainer}>
+          <FontIcon iconName="Info" className={TaskListStyle.icon} />
+          <FontIcon iconName={task.isFav ? "FavoriteStarFill" : "FavoriteStar"} className={TaskListStyle.icon} />
+          <FontIcon iconName="EditNote" className={TaskListStyle.icon} />
+          <FontIcon iconName="Delete" className={TaskListStyle.icon} />
+        </div>
       </div>
     );
   };
-
   return (
     <div>
       {activeTasks.map(onRenderCell)}

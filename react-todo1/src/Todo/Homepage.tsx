@@ -1,11 +1,12 @@
-import React, { useState, useEffect, createContext } from "react";
-import { HomepageStyle } from "./Homepage.style";
-import TodoString from "./string.json";
-import TaskList from "./List/TaskList";
-import axios from "axios";
+import React, { useState, useEffect, createContext } from 'react';
+import { HomepageStyle } from './Homepage.style';
+import TodoString from './string.json';
+import TaskList from './List/TaskList';
+import axios from 'axios';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
+import TodoProvider from './TodoProvider';
+import TaskForm from './AddTask/TaskForm';
 initializeIcons();
-export const ToDoContext = createContext<{activeTasks :ITask[]}>({activeTasks :[]});
 
 interface PivotItem {
   headerText: string;
@@ -16,6 +17,10 @@ export interface ITask {
   id: string;
   title: string;
   isFav: boolean;
+}
+interface Joke {
+  setup: string;
+  punchline: string;
 }
 
 const Clock = () => {
@@ -31,7 +36,7 @@ const Clock = () => {
 
   return (
     <div className={HomepageStyle.clockStyle}>
-      Current time in Poland: {currentTime.toLocaleTimeString("pl-PL")}
+      Current time in Poland: {currentTime.toLocaleTimeString('pl-PL')}
     </div>
   );
 };
@@ -39,43 +44,25 @@ const Clock = () => {
 const Homepage = () => {
   const pivotItems: PivotItem[] = [
     {
-      headerText: "My Tasks",
-      itemKey: "0",
+      headerText: 'My Tasks',
+      itemKey: '0',
       content: <TaskList />,
     },
     {
-      headerText: "Add",
-      itemKey: "1",
-      content: <label>Pivot #2</label>,
+      headerText: 'Add',
+      itemKey: '1',
+      content: <TaskForm />,
     },
     {
-      headerText: "Completed",
-      itemKey: "2",
+      headerText: 'Completed',
+      itemKey: '2',
       content: <label>Pivot #3</label>,
     },
   ];
 
-  
-  const tasks: ITask[] = [
-    {
-      id: "1",
-      title: "Lorem ipsums jdad",
-      isFav: true
-    },
-    {
-      id: "2",
-      title: "Lorem ipsumadjhadkhadvjga",
-      isFav: false
-    },
-    {
-      id: "3",
-      title: "third",
-      isFav: false
-    },
-  ];
-  
-  const [selectedKey, setSelectedKey] = useState("1");
+  const [selectedKey, setSelectedKey] = useState('1');
   const [advice, setAdvice] = useState<string | null>(null);
+  const [joke, setJoke] = useState<string | null>(null);
 
   const handleTabClick = (itemKey: string) => {
     setSelectedKey(itemKey);
@@ -90,47 +77,79 @@ const Homepage = () => {
       console.error('Error fetching advice:', error);
     }
   };
+  const fetchJoke = async (): Promise<void> => {
+    try {
+      const response = await axios.get(
+        'https://official-joke-api.appspot.com/random_joke'
+      );
+      const jokeData: Joke = response.data;
+      const formattedJoke: string = `${jokeData.setup} ${jokeData.punchline}`;
+      setJoke(formattedJoke);
+    } catch (error) {
+      console.error('Error fetching joke:', error);
+    }
+  };
+
+  const handleFetchJoke = () => {
+    fetchJoke();
+  };
+  const handleFetchAdvice = () => {
+    fetchAdvice();
+  };
 
   useEffect(() => {
     fetchAdvice();
+    fetchJoke();
   }, []);
 
   return (
     <div className={HomepageStyle.todoContainer}>
-      <ToDoContext.Provider value={{activeTasks : tasks}}>
-      <header className={HomepageStyle.headerStyle}>
-        <h2>{TodoString.header}</h2>
-        
-      </header>
-      
-      <Clock />
-      <ul className={HomepageStyle.tabContainer}>
-        {pivotItems.map((item) => (
-          <li
-            key={item.itemKey}
-            className={`${HomepageStyle.tab} ${
-              selectedKey === item.itemKey ? HomepageStyle.activeTab : ""
-            }`}
-            onClick={() => handleTabClick(item.itemKey)}
-          >
-            {item.headerText}
-          </li>
-        ))}
-      </ul>
+      <TodoProvider>
+        <header className={HomepageStyle.headerStyle}>
+          <h2>{TodoString.header}</h2>
+        </header>
 
-      <div className="pivot-content">
-        {pivotItems.map(
-          (item) => selectedKey === item.itemKey && <div key={item.itemKey}>{item.content}</div>
-        )}
-      </div>
-      {advice && (
-        <div className={HomepageStyle.adviceContainer}>
-          <h1 className={HomepageStyle.adviceStyle}>{advice}</h1>
+        <Clock />
+        <ul className={HomepageStyle.tabContainer}>
+          {pivotItems.map((item) => (
+            <li
+              key={item.itemKey}
+              className={`${HomepageStyle.tab} ${
+                selectedKey === item.itemKey ? HomepageStyle.activeTab : ''
+              }`}
+              onClick={() => handleTabClick(item.itemKey)}
+            >
+              {item.headerText}
+            </li>
+          ))}
+        </ul>
+
+        <div className="pivot-content">
+          {pivotItems.map(
+            (item) =>
+              selectedKey === item.itemKey && (
+                <div key={item.itemKey}>{item.content}</div>
+              )
+          )}
         </div>
-      )}
-      </ToDoContext.Provider>
+        {advice && (
+          <div className={HomepageStyle.adviceContainer}>
+            <h1 className={HomepageStyle.adviceStyle}>
+              <span>Advice:</span> {advice}
+            </h1>
+            <button onClick={handleFetchAdvice}>New Advice</button>
+          </div>
+        )}
+        {joke && (
+          <div className={HomepageStyle.jokeContainer}>
+            <h1 className={HomepageStyle.jokeStyle}>
+              <span>Joke:</span> {joke}
+            </h1>
+            <button onClick={handleFetchJoke}>New Joke</button>
+          </div>
+        )}
+      </TodoProvider>
     </div>
-    
   );
 };
 
