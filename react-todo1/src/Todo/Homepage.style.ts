@@ -12,6 +12,9 @@ interface IHomepageStyle {
   clockStyle: IStyle;
   adviceContainer: IStyle; // New style for the advice container
   adviceStyle: IStyle
+  jokeContainer: IStyle; // New style for the advice container
+  jokeStyle: IStyle
+  
 }
 
 export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets({
@@ -72,7 +75,7 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
   },
   activeTab: {
     // Styles for the active tab
-    backgroundColor: 'yellow',
+    backgroundColor: 'lightgrey',
     color: '',
   },
   clockStyle: {
@@ -93,11 +96,29 @@ export const HomepageStyle: IProcessedStyleSet<IHomepageStyle> = mergeStyleSets(
     textShadow: '1px 1px 4px rgba(0, 0, 0, 0.5)',
     color: 'transparent',
     WebkitTextStroke: '1px navy',
-    WebkitTextFillColor: 'pink',
+    WebkitTextFillColor: 'lightpurple',
     WebkitTextStrokeWidth: '1px',
     fontWeight: "cursive",
     
   }, 
+  jokeContainer: {
+    
+    textAlign: 'center', // Center the text
+    fontSize: '24px',
+  },
+  jokeStyle: {
+    fontSize: '26px',
+    textAlign: 'center',
+    textShadow: '1px 1px 4px rgba(0, 0, 0, 0.5)',
+    color: 'transparent',
+    WebkitTextStroke: '1px navy',
+    WebkitTextFillColor: 'lightgreen',
+    WebkitTextStrokeWidth: '1px',
+    fontWeight: "cursive",
+    
+  }
+  
+
 });
 
 export default HomepageStyle;
