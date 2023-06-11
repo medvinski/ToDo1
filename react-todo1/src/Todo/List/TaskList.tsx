@@ -3,8 +3,13 @@ import { TaskListStyle } from './TaskList.style';
 import { FontIcon } from '@fluentui/react';
 import { ITask } from '../Homepage';
 import { ActionTypeEnum, ToDoContext } from '../TodoProvider';
+import TaskDescription from './TaskDescription';
 
-const TaskList = () => {
+type Props = {
+  setEditTask: (taskId: string) => void;
+};
+
+const TaskList = ({ setEditTask }: Props) => {
   const { activeTasks, dispatch } = useContext(ToDoContext);
   const onTaskDelete = (id: string) => {
     dispatch({ type: ActionTypeEnum.Delete, data: { id } });
@@ -18,7 +23,7 @@ const TaskList = () => {
         <input type="checkbox" style={{ width: '20px', height: '20px' }} />
         {task.title}
         <div className={TaskListStyle.iconsContainer}>
-          <FontIcon iconName="Info" className={TaskListStyle.icon} />
+          <TaskDescription task={task} />
           <FontIcon
             iconName={task.isFav ? 'FavoriteStarFill' : 'FavoriteStar'}
             className={`${TaskListStyle.icon} ${
@@ -26,7 +31,13 @@ const TaskList = () => {
             }`}
             onClick={() => onFavClick(task.id)}
           />
-          <FontIcon iconName="EditNote" className={TaskListStyle.icon} />
+          <FontIcon
+            iconName="EditNote"
+            className={TaskListStyle.icon}
+            onClick={() => {
+              setEditTask(task.id);
+            }}
+          />
           <FontIcon
             iconName="Delete"
             className={TaskListStyle.icon}

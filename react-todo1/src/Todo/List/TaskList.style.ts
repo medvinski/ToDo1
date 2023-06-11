@@ -4,7 +4,11 @@ interface ITaskListStyle {
   task: IStyle;
   icon: IStyle;
   iconsContainer: IStyle;
-  favoriteIcon: IStyle; 
+  favoriteIcon: IStyle;
+  disabled: IStyle;
+  tooltip: IStyle; // New style for the custom tooltip
+  tooltipContent: IStyle; // Style for the tooltip content
+  tooltipText: IStyle; // Style for the tooltip text
 }
 
 export const TaskListStyle: IProcessedStyleSet<ITaskListStyle> = mergeStyleSets({
@@ -31,15 +35,42 @@ export const TaskListStyle: IProcessedStyleSet<ITaskListStyle> = mergeStyleSets(
   iconsContainer: {
     display: 'flex',
     marginLeft: '30px',
-    justifyContent: 'flex-end', 
+    justifyContent: 'flex-end',
   },
   icon: {
     fontSize: 30,
-    margin: '5px 5px 5px 5px', 
-    width: '30px', 
+    margin: '5px 5px 5px 5px',
+    width: '30px',
+    cursor: 'pointer',
+    background: 'transparent',
+    border: 'none',
+    outline: 'none',
   },
   favoriteIcon: {
-    color: 'red', 
+    color: 'red',
+    cursor: 'pointer',
+  },
+  disabled: {
+    color: 'lightgray',
+    selectors: {
+      '&:hover': { cursor: 'default' },
+    },
+  },
+  tooltip: {
+    position: 'absolute',
+    top: '0',
+    left: '100%',
+    width: '200px',
+    padding: '10px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    zIndex: 9999,
+  },
+  tooltipContent: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  tooltipText: {
+    lineHeight: '1.4',
   },
 });
 

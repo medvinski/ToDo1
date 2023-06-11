@@ -20,9 +20,14 @@ export enum ActionTypeEnum {
   Add,
   Delete,
   ToggleFav,
+  Update,
 }
 
-type IReducerAction = IAddAction | IDeleteAction | IToggleFavAction;
+type IReducerAction =
+  | IAddAction
+  | IDeleteAction
+  | IToggleFavAction
+  | IUpdateAction;
 
 interface IAddAction {
   type: ActionTypeEnum.Add;
@@ -37,6 +42,11 @@ interface IDeleteAction {
 interface IToggleFavAction {
   type: ActionTypeEnum.ToggleFav;
   data: { id: string };
+}
+
+interface IUpdateAction {
+  type: ActionTypeEnum.Update;
+  data: ITask;
 }
 
 type Props = {
@@ -63,7 +73,14 @@ const toggleFavAction = (state: ITodoState, action: IToggleFavAction) => {
   }
   return cloneActiveTasks;
 };
-
+const updateTaskAction = (state: ITodoState, action: IUpdateAction) => {
+  const cloneActiveTasks: ITask[] = clone(state.activeTasks);
+  const index = cloneActiveTasks.findIndex((x) => x.id === action.data.id);
+  if (index >= 0) {
+    cloneActiveTasks[index] = action.data;
+  }
+  return cloneActiveTasks;
+};
 const reducer = (state: ITodoState, action: IReducerAction) => {
   switch (action.type) {
     case ActionTypeEnum.Add:
@@ -74,6 +91,9 @@ const reducer = (state: ITodoState, action: IReducerAction) => {
 
     case ActionTypeEnum.ToggleFav:
       return { ...state, activeTasks: toggleFavAction(state, action) };
+
+    case ActionTypeEnum.Update:
+      return { ...state, activeTasks: updateTaskAction(state, action) };
   }
 
   return { ...state };

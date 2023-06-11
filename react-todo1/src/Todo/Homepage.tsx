@@ -43,25 +43,31 @@ const Clock = () => {
 };
 
 const Homepage = () => {
+  const [editTaskId, setEditTaskId] = useState<string | null>(null);
+  const editTask = (id: string) => {
+    setEditTaskId(id);
+    setSelectedKey('1');
+  };
   const pivotItems: PivotItem[] = [
     {
       headerText: 'My Tasks',
       itemKey: '0',
-      content: <TaskList />,
+      content: <TaskList setEditTask={editTask} />,
     },
     {
       headerText: 'Add',
       itemKey: '1',
-      content: <TaskForm />,
+      content: <TaskForm editTaskId={editTaskId} />,
     },
     {
       headerText: 'Completed',
       itemKey: '2',
-      content: <label>Pivot #3</label>,
+      content: <label></label>,
     },
   ];
 
   const [selectedKey, setSelectedKey] = useState('0');
+
   const [advice, setAdvice] = useState<string | null>(null);
   const [joke, setJoke] = useState<string | null>(null);
 
